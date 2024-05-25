@@ -1,0 +1,33 @@
+version: '3.4'
+
+networks: 
+  se172788_productmanagement_api:
+
+services:
+  se172788.productmanagement.api:
+    image: ${DOCKER_REGISTRY-}se172788productmanagementapi
+    build:
+      context: .
+      dockerfile: SE172788.ProductManagement.API/Dockerfile
+    ports: 
+      - "8386:443"
+      - "8001:80"
+    depends_on:
+      - mystoredb
+    networks: 
+      - se172788_productmanagement_api
+
+  mystoredb:
+    container_name: lab1-mystoredb
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports: 
+      - "8002:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Haohaohao@123
+    networks: 
+      - se172788_productmanagement_api
+
+
+
+  
